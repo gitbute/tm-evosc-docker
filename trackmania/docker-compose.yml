@@ -22,6 +22,7 @@ services:
             - '${PORT}:2350/tcp'
         volumes:
             - 'serverData:/server/UserData'
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
     evosc:
         image: '${CONTROLLER_IMAGE}'
         depends_on:
