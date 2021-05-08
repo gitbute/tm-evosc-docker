@@ -1,14 +1,15 @@
 version: '3.8'
 services:
     server:
-        image: '${TRACKMANIA_IMAGE}'
+        image: 'evotm/trackmania'
         environment:
             MASTER_LOGIN: '${MASTER_LOGIN}'
             MASTER_PASSWORD: '${MASTER_PASSWORD}'
             SERVER_NAME: '${SERVER_NAME}'
-            SYSTEM_XMLRPC_REMOTE: '${SYSTEM_XMLRPC_REMOTE}'
-            SYSTEM_DISABLE_REPLAYS: '${SYSTEM_DISABLE_REPLAYS}'
-            SYSTEM_SAVE_RUNS: '${SYSTEM_SAVE_RUNS}'
+            XMLRPC_ALLOWREMOTE: 'true'
+            DISABLE_REPLAY_RECORDING: '${SYSTEM_DISABLE_REPLAYS}'
+            SAVE_ALL_INDIVIDUAL_RUNS: '${SYSTEM_SAVE_RUNS}'
+            FORCE_IP_ADDRESS: '46.4.142.198:${PORT}'
         healthcheck:
             test: 'nc -z -v 127.0.0.1 5000 || exit 1'
             interval: 5s
@@ -23,7 +24,7 @@ services:
             - 'serverData:/server/UserData'
             - '/var/run/docker.sock:/var/run/docker.sock:ro'
     evosc:
-        image: '${CONTROLLER_IMAGE}'
+        image: 'docker.pkg.github.com/evotm/docker-evosc/evosc:latest'
         depends_on:
             server:
                 condition: service_healthy
@@ -36,13 +37,13 @@ services:
         restart: always
         environment:
             MASTER_LOGIN: '${MASTER_LOGIN}'
-            DB_HOST: '${DB_HOST}'
+            DB_HOST: '10.0.0.10'
             DB_NAME: '${DB_NAME}'
             DB_USER: '${DB_USER}'
             DB_PASSWORD: '${DB_PASSWORD}'
-            RPC_IP: '${RPC_IP}'
-            RPC_LOGIN: '${RPC_LOGIN}'
-            RPC_PASSWORD: '${RPC_PASSWORD}'
+            RPC_IP: 'server'
+            RPC_LOGIN: 'SuperAdmin'
+            RPC_PASSWORD: 'SuperAdmin'
         volumes:
             - 'serverData:/server/UserData'
             - 'evoscConfig:/controller/config'
