@@ -22,7 +22,6 @@ services:
             - '${PORT}:2350/tcp'
         volumes:
             - 'serverData:/server/UserData'
-            - '/var/run/docker.sock:/var/run/docker.sock:ro'
     evosc:
         image: 'docker.pkg.github.com/evotm/docker-evosc/evosc:latest'
         depends_on:
