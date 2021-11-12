@@ -1,5 +1,13 @@
 version: '3.8'
 services:
+    db:
+        image: mysql:latest
+        volumes:
+            - ./db:/var/lib/mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_NAME}'
     server:
         image: 'evotm/trackmania'
         environment:
@@ -9,7 +17,6 @@ services:
             XMLRPC_ALLOWREMOTE: 'true'
             DISABLE_REPLAY_RECORDING: '${SYSTEM_DISABLE_REPLAYS}'
             SAVE_ALL_INDIVIDUAL_RUNS: '${SYSTEM_SAVE_RUNS}'
-            FORCE_IP_ADDRESS: '46.4.142.198:${PORT}'
         healthcheck:
             test: 'nc -z -v 127.0.0.1 5000 || exit 1'
             interval: 5s
@@ -36,7 +43,7 @@ services:
         restart: always
         environment:
             MASTER_LOGIN: '${MASTER_LOGIN}'
-            DB_HOST: '10.0.0.10'
+            DB_HOST: '${DB_HOST}'
             DB_NAME: '${DB_NAME}'
             DB_USER: '${DB_USER}'
             DB_PASSWORD: '${DB_PASSWORD}'
