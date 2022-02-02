@@ -55,6 +55,10 @@ services:
             - 'evoscConfig:/controller/config'
             - 'evoscModules:/controller/modules'
             - 'evoscCache:/controller/cache'
+    musicserver:
+        build: ..\musicserver\
+        ports:
+              - "80:80"
 volumes:
     serverData: null
     evoscConfig: null
