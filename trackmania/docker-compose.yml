@@ -59,6 +59,8 @@ services:
         build: ../musicserver/
         ports:
               - "80:80"
+        volumes:
+            - ./:/var/www/html
 volumes:
     serverData: null
     evoscConfig: null
