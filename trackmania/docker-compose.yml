@@ -56,7 +56,7 @@ services:
             - 'evoscModules:/controller/modules'
             - 'evoscCache:/controller/cache'
     musicserver:
-        build: ..\musicserver\
+        build: ../musicserver/
         ports:
               - "80:80"
 volumes:
